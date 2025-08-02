@@ -32,11 +32,11 @@ function Home({ showGithub, showDiscord, showSpotify, showInsta }) {
     const fetchDailyFunFact = () => {
       fetch('https://uselessfacts.jsph.pl/api/v2/facts/today') // fun fact API lol
         .then((res) => {
-          console.log('Response status:', res.status);
+          // console.log('Response status:', res.status);
           return res.json();
         })
         .then((data) => {
-          console.log('Daily Fun Fact API data: ', data);
+          // console.log('Daily Fun Fact API data: ', data);
           setDailyFunFact(data);
         })
         .catch((err) => console.error('Failed to fetch the Daily Fun Fact:', err));
@@ -55,18 +55,18 @@ function Home({ showGithub, showDiscord, showSpotify, showInsta }) {
 
       fetch('http://127.0.0.1:8888/api/sy/now-playing')
         .then((res) => {
-          console.log('Response status:', res.status);
+          // console.log('Response status:', res.status);
           if (res.status === 204) {
             throw new Error("No song playing");
           }
           return res.json();
         })
         .then((data) => {
-          console.log('Now Playing API data:', data);
+          // console.log('Now Playing API data:', data);
           setNowPlaying(data);
         })
         .catch((err) => {
-          console.log('Song not playing or error:', err.message);
+          // console.log('Song not playing or error:', err.message);
           setNowPlaying(null);
           setNowPlayingLoaded(true);
         });
