@@ -78,3 +78,5 @@ dynamic section depening on what i hover over
     on discord = im probably in vc right now
     on spotify = my last played song was 
     on instagram = im probably taking a picture right now + changes name to my @
+
+name turns into 'Experiments and slides up to where it is on projects page

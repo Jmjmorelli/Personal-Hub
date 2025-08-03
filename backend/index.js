@@ -84,7 +84,7 @@ app.get('/api/sy/callback', async (req, res) => {
 
     res.send('Login success! Refresh token saved.');
   } catch (err) {
-    console.error('Error during token exchange:', err.response?.data || err.message);
+    // console.error('Error during token exchange:', err.response?.data || err.message);
     res.status(500).send('Token exchange failed.');
   }
 });
@@ -110,9 +110,39 @@ app.get('/api/sy/now-playing', async (req, res) => {
     });
     
   } catch (err) {
-    res.status(500).send('Error fetching now playing.');
+      // 🔁 If access token is invalid (expired), try to refresh it
+    if (err.response?.status === 401) {
+      // console.log('⚠️ Token expired — refreshing and retrying...');
+      try {
+        await refreshAccessToken();
+
+        // retry once after refreshing
+        const retry = await axios.get('https://api.spotify.com/v1/me/player/currently-playing', {
+          headers: { 'Authorization': `Bearer ${access_token}` }
+        });
+
+        if (retry.status === 204 || !retry.data || !retry.data.item) {
+          return res.status(204).send(); // still nothing
+        }
+
+        return res.json({
+          song: retry.data.item.name,
+          artist: retry.data.item.artists.map(a => a.name).join(', '),
+          album: retry.data.item.album.name,
+          image: retry.data.item.album.images[0].url
+        });
+
+      } catch (retryErr) {
+        console.error('🔴 Retry after token refresh failed:', retryErr.response?.data || retryErr.message);
+        return res.status(500).send('Failed after refreshing token.');
+      }
+    }
+
+    console.error('🔴 Error in now-playing:', err.response?.data || err.message);
+    return res.status(500).send('Error fetching now playing.');
   }
 });
+
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
