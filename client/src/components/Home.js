@@ -59,6 +59,9 @@ function Home({ showGithub, showDiscord, showSpotify, showInsta }) {
           if (res.status === 204) {
             throw new Error("No song playing");
           }
+          else {
+            throw new Error("Connection to backend failed");
+          }
           return res.json();
         })
         .then((data) => {

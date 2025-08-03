@@ -12,6 +12,7 @@ function Projects() {
       <h2 style={{
         position: "relative",
         left: "180px",
+        top: "0px",
         marginTop: "10%",
         fontSize: "20px",
         padding: "1rem"
