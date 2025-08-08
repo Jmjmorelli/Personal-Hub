@@ -99,7 +99,6 @@ function Home({ showGithub, showDiscord, showSpotify, showInsta }) {
     <div className="homePage"
       style={{
         backgroundImage: `url(${backgrounds[bgIndex]})`,
-        backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundSize: '40%',
