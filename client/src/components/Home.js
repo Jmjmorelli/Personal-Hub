@@ -59,17 +59,17 @@ function Home({ showGithub, showDiscord, showSpotify, showInsta }) {
           if (res.status === 204) {
             throw new Error("No song playing");
           }
-          else {
+          else if (!res.ok) {
             throw new Error("Connection to backend failed");
           }
           return res.json();
         })
         .then((data) => {
-          // console.log('Now Playing API data:', data);
+          console.log('Now Playing API data:', data);
           setNowPlaying(data);
         })
         .catch((err) => {
-          // console.log('Song not playing or error:', err.message);
+          console.log('Song not playing or error:', err.message);
           setNowPlaying(null);
           setNowPlayingLoaded(true);
         });
@@ -133,7 +133,7 @@ function Home({ showGithub, showDiscord, showSpotify, showInsta }) {
           }}>
 
             <p><strong>Fact of the Day</strong></p>
-            <p> {dailyFunFact.text}</p>
+            <p style={{width : "400px"}}> {dailyFunFact.text}</p>
           </div>
         )}
 
