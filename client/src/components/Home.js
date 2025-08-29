@@ -65,7 +65,7 @@ function Home({ showGithub, showDiscord, showSpotify, showInsta }) {
           return res.json();
         })
         .then((data) => {
-          console.log('Now Playing API data:', data);
+          // console.log('Now Playing API data:', data);
           setNowPlaying(data);
         })
         .catch((err) => {
