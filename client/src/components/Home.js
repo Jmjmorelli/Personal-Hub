@@ -53,7 +53,7 @@ function Home({ showGithub, showDiscord, showSpotify, showInsta }) {
   useEffect(() => {
     const fetchNowPlaying = () => {
 
-      fetch('http://127.0.0.1:8888/api/sy/now-playing')
+      fetch('/api/sy/now-playing')
         .then((res) => {
           // console.log('Response status:', res.status);
           if (res.status === 204) {
@@ -122,7 +122,7 @@ function Home({ showGithub, showDiscord, showSpotify, showInsta }) {
         <p style={{
           alignContent: 'center',
           left: '20px'
-        }}> I'm probably eating right now</p>
+        }}> I'm probably eating right now!?</p>
 
         {!nowPlaying && nowPlayingLoaded && (
 
