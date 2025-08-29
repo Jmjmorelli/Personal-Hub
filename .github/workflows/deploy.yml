@@ -1,0 +1,69 @@
+name: Deploy to EC2 (build on server)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: SSH → pull, build, restart
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            set -e
+
+            # --- paths ---
+            APP_ROOT=/var/www/Personal-Hub
+            FRONT_DIR=$APP_ROOT/client
+            BACK_DIR=$APP_ROOT/backend
+
+            # --- make sure base tools exist (first run safety) ---
+            if ! command -v git >/dev/null; then
+              if command -v apt >/dev/null; then
+                sudo apt update && sudo apt -y install git
+              elif command -v yum >/dev/null; then
+                sudo yum -y install git
+              fi
+            fi
+            if ! command -v pm2 >/dev/null; then
+              if command -v npm >/dev/null; then
+                sudo npm i -g pm2
+              fi
+            fi
+
+            # --- pull latest code ---
+            cd $APP_ROOT
+            if [ -d .git ]; then
+              git fetch --all
+              git reset --hard origin/main
+            else
+              # If the folder was empty, do an initial clone (via SSH remote already set up on EC2)
+              git clone git@github.com:Jmjmorelli/Personal-Hub.git $APP_ROOT
+              cd $APP_ROOT
+            fi
+
+            # --- frontend build ---
+            cd $FRONT_DIR
+            npm ci
+            npm run build  # outputs to client/build
+
+            # --- backend deps & (re)start with PM2 ---
+            cd $BACK_DIR
+            npm ci
+            # make sure your server listens on 127.0.0.1:8888
+            pm2 restart personal-hub-backend || pm2 start index.js --name personal-hub-backend
+
+            # persist pm2 on reboot (first run only prints a command; we try both variants)
+            pm2 save || true
+            (pm2 startup systemd -u $USER --hp $HOME || true)
+
+            # --- nginx reload ---
+            sudo nginx -t
+            sudo systemctl reload nginx
