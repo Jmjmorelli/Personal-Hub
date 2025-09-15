@@ -18,8 +18,8 @@ function Projects() {
         padding: "1rem"
       }}>Coming Soon</h2>
       <div className="project-list">
-        {/* <h1 style={{ fontSize: "40px", marginLeft: "40px", padding : "1rem" }}>01</h1> */}
-        {/* <article className="card">
+        {/* <h1 style={{ fontSize: "40px", marginLeft: "40px", padding : "1rem" }}>01</h1>
+        <article className="card">
           <figure className="card-image">
             <img src='media/download.png' alt="An orange painted blue, cut in half laying on a blue background" />
           </figure>
