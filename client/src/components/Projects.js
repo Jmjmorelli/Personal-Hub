@@ -16,10 +16,10 @@ function Projects() {
         marginTop: "10%",
         fontSize: "20px",
         padding: "1rem"
-      }}>Experiments</h2>
+      }}>Coming Soon</h2>
       <div className="project-list">
         {/* <h1 style={{ fontSize: "40px", marginLeft: "40px", padding : "1rem" }}>01</h1> */}
-        <article className="card">
+        {/* <article className="card">
           <figure className="card-image">
             <img src='media/download.png' alt="An orange painted blue, cut in half laying on a blue background" />
           </figure>
@@ -52,7 +52,7 @@ function Projects() {
               Jul 26, 2019
             </div>
           </div>
-        </article>
+        </article> */}
 
       </div>
     </section>
