@@ -17,53 +17,56 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            set -e
 
-            # --- paths ---
-            APP_ROOT=/var/www/Personal-Hub
-            FRONT_DIR=$APP_ROOT/client
-            BACK_DIR=$APP_ROOT/backend
+                  set -euo pipefail
 
-            # --- make sure base tools exist (first run safety) ---
-            if ! command -v git >/dev/null; then
-              if command -v apt >/dev/null; then
-                sudo apt update && sudo apt -y install git
-              elif command -v yum >/dev/null; then
-                sudo yum -y install git
-              fi
-            fi
-            if ! command -v pm2 >/dev/null; then
-              if command -v npm >/dev/null; then
-                sudo npm i -g pm2
-              fi
-            fi
+                  APP_ROOT=/var/www/Personal-Hub
+                  FRONT_DIR=$APP_ROOT/client
+                  BACK_DIR=$APP_ROOT/backend
 
-            # --- pull latest code ---
-            cd $APP_ROOT
-            if [ -d .git ]; then
-              git fetch --all
-              git reset --hard origin/main
-            else
-              # If the folder was empty, do an initial clone (via SSH remote already set up on EC2)
-              git clone git@github.com:Jmjmorelli/Personal-Hub.git $APP_ROOT
-              cd $APP_ROOT
-            fi
+                  # Ensure dirs & ownership
+                  sudo mkdir -p "$APP_ROOT"
+                  sudo chown -R "$USER":"$USER" "$APP_ROOT"
 
-            # --- frontend build ---
-            cd $FRONT_DIR
-            npm ci
-            npm run build  # outputs to client/build
+                  # --- pull latest code (use HTTPS to avoid needing a deploy key) ---
+                  if [ -d "$APP_ROOT/.git" ]; then
+                    cd "$APP_ROOT"
+                    git remote set-url origin https://github.com/Jmjmorelli/Personal-Hub.git
+                    git fetch --all --prune
+                    git reset --hard origin/main
+                  else
+                    git clone https://github.com/Jmjmorelli/Personal-Hub.git "$APP_ROOT"
+                    cd "$APP_ROOT"
+                  fi
 
-            # --- backend deps & (re)start with PM2 ---
-            cd $BACK_DIR
-            npm ci
-            # make sure your server listens on 127.0.0.1:8888
-            pm2 restart personal-hub-backend || pm2 start index.js --name personal-hub-backend
+                  # --- frontend clean install & build ---
+                  cd "$FRONT_DIR"
+                  # nuke node_modules to avoid ENOTEMPTY
+                  rm -rf node_modules
+                  # optional: ensure cache is clean
+                  npm ci --no-audit --no-fund
+                  npm run build
+                  
+                  # --- backend clean install & restart ---
+                  cd "$BACK_DIR"
+                  rm -rf node_modules
+                  npm ci --no-audit --no-fund
+                  
+                  # ensure pm2 exists (global install is fine)
+                  if ! command -v pm2 >/dev/null 2>&1; then
+                    sudo npm i -g pm2
+                  fi
 
-            # persist pm2 on reboot (first run only prints a command; we try both variants)
-            pm2 save || true
-            (pm2 startup systemd -u $USER --hp $HOME || true)
+                  # Keep ports consistent with Nginx (proxy_pass -> 127.0.0.1:3001)
+                  export NODE_ENV=production
+                    export PORT=3001
 
-            # --- nginx reload ---
-            sudo nginx -t
-            sudo systemctl reload nginx
+                  pm2 describe personal-hub-backend >/dev/null 2>&1 \
+                    && pm2 restart personal-hub-backend \
+                      || pm2 start index.js --name personal-hub-backend --time
+
+                  pm2 save || true
+                    (pm2 startup systemd -u "$USER" --hp "$HOME" || true)
+
+                  sudo nginx -t
+                  sudo systemctl reload nginx
