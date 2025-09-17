@@ -16,7 +16,7 @@ function Projects() {
         marginTop: "10%",
         fontSize: "20px",
         padding: "1rem"
-      }}>Coming Soon</h2>
+      }}>Coming Soon!</h2>
       <div className="project-list">
         {/* <h1 style={{ fontSize: "40px", marginLeft: "40px", padding : "1rem" }}>01</h1>
         <article className="card">
