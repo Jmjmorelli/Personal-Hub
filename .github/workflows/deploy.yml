@@ -10,63 +10,66 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: SSH → pull, build, restart
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_KEY }}
-          script: |
-
-                  set -euo pipefail
-
-                  APP_ROOT=/var/www/Personal-Hub
-                  FRONT_DIR=$APP_ROOT/client
-                  BACK_DIR=$APP_ROOT/backend
-
-                  # Ensure dirs & ownership
-                  sudo mkdir -p "$APP_ROOT"
-                  sudo chown -R "$USER":"$USER" "$APP_ROOT"
-
-                  # --- pull latest code (use HTTPS to avoid needing a deploy key) ---
-                  if [ -d "$APP_ROOT/.git" ]; then
-                    cd "$APP_ROOT"
-                    git remote set-url origin https://github.com/Jmjmorelli/Personal-Hub.git
-                    git fetch --all --prune
-                    git reset --hard origin/main
-                  else
-                    git clone https://github.com/Jmjmorelli/Personal-Hub.git "$APP_ROOT"
-                    cd "$APP_ROOT"
-                  fi
-
-                  # --- frontend clean install & build ---
-                  cd "$FRONT_DIR"
-                  # nuke node_modules to avoid ENOTEMPTY
-                  rm -rf node_modules
-                  # optional: ensure cache is clean
-                  npm ci --no-audit --no-fund
-                  npm run build
-                  
-                  # --- backend clean install & restart ---
-                  cd "$BACK_DIR"
-                  rm -rf node_modules
-                  npm ci --no-audit --no-fund
-                  
-                  # ensure pm2 exists (global install is fine)
-                  if ! command -v pm2 >/dev/null 2>&1; then
-                    sudo npm i -g pm2
-                  fi
-
-                  # Keep ports consistent with Nginx (proxy_pass -> 127.0.0.1:3001)
-                  export NODE_ENV=production
-                    export PORT=3001
-
-                  pm2 describe personal-hub-backend >/dev/null 2>&1 \
-                    && pm2 restart personal-hub-backend \
-                      || pm2 start index.js --name personal-hub-backend --time
-
-                  pm2 save || true
-                    (pm2 startup systemd -u "$USER" --hp "$HOME" || true)
-
-                  sudo nginx -t
-                  sudo systemctl reload nginx
+    - name: SSH → pull, clean, build, restart
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}   # e.g. ubuntu
+        key: ${{ secrets.EC2_KEY }}
+        port: 22
+        timeout: 90s
+        command_timeout: 15m
+        script: |
+          set -euo pipefail
+      
+          APP_ROOT=/var/www/Personal-Hub
+          FRONT_DIR=$APP_ROOT/client
+          BACK_DIR=$APP_ROOT/backend
+      
+          # 0) Ensure dirs exist and are owned by this user (fixes root-owned leftovers)
+          sudo mkdir -p "$APP_ROOT"
+          sudo chown -R "$USER":"$USER" "$APP_ROOT"
+      
+          # 1) Pull latest code (switch origin to HTTPS so no deploy key needed on the server)
+          if [ -d "$APP_ROOT/.git" ]; then
+            cd "$APP_ROOT"
+            git remote set-url origin https://github.com/Jmjmorelli/Personal-Hub.git
+            git fetch --all --prune
+            git reset --hard origin/main
+          else
+            git clone https://github.com/Jmjmorelli/Personal-Hub.git "$APP_ROOT"
+            cd "$APP_ROOT"
+          fi
+      
+          # 2) HARD-CLEAN untracked files (nukes node_modules, build artifacts, etc.)
+          #    This is the key to avoid ENOTEMPTY and permission stragglers.
+          git clean -fdx
+      
+          # 3) Frontend: clean install & build
+          cd "$FRONT_DIR"
+          npm ci --no-audit --no-fund
+          npm run build
+      
+          # 4) Backend: clean install
+          cd "$BACK_DIR"
+          npm ci --no-audit --no-fund
+      
+          # 5) PM2 up (install if missing) and make sure PORT matches Nginx proxy_pass
+          if ! command -v pm2 >/dev/null 2>&1; then
+            sudo npm i -g pm2
+          fi
+      
+          export NODE_ENV=production
+          export PORT=3001   # your nginx proxies /api to 127.0.0.1:3001
+      
+          # start or restart with explicit script path (avoids CWD issues)
+          pm2 describe personal-hub-backend >/dev/null 2>&1 \
+            && pm2 restart personal-hub-backend --update-env \
+            || pm2 start "$BACK_DIR/index.js" --name personal-hub-backend --time --update-env
+      
+          pm2 save || true
+          (pm2 startup systemd -u "$USER" --hp "$HOME" || true)
+      
+          # 6) Nginx sanity & reload
+          sudo nginx -t
+          sudo systemctl reload nginx
