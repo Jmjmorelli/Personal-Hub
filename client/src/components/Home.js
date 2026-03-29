@@ -93,7 +93,7 @@ function Home({ showGithub, showDiscord, showSpotify, showInsta }) {
   else if (showGithub)
     headerName = "010010100100111100001010" // ? curios what to put here.. maybe some morse code or binary
   else
-    headerName = "JOSEPH MORELLI";
+    headerName = "JOSEPH MORELLI!";
 
   return (
     <div className="homePage"
