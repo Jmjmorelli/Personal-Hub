@@ -1,10 +1,3 @@
-# Morelli Website
+# Morelli Website v2.0.0
 
-Messing with these 
-- REACT
-- NODEJS
-- SPOTIFY APIs
-- EXPRESS
-- AXIOS
-- DOTENV
-- CORS
+Migrating to NextJS 
