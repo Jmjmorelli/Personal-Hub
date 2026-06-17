@@ -5,6 +5,8 @@ function Header() {
     <header>
       <nav >
         <ul style={{
+          position: "sticky",
+          top: "0",
           display: "flex",
           flexDirection: "row-reverse",
           gap: ".5rem",
@@ -13,6 +15,7 @@ function Header() {
           <div style={{display: "flex", flexDirection: "row", gap: ".5rem"}}>
             <li><Link href="/">Home</Link></li>
             <li><Link href="/projects">Projects</Link></li>
+            <li><Link href="/photo-directory">Photos</Link></li>
           </div>
           <div style={{ flexDirection: "row" }}>
             <li><Link href="/"><span style={{ fontWeight: "bold" }}>JOSEPH</span> <span style={{ color: "#ae774fff", fontWeight: "bold" }}>MORELLI</span></Link></li>

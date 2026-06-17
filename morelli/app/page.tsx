@@ -120,8 +120,8 @@ export default function Home() {
     //   </main>
     // </div>
     <div className="homePage">
-      <Header/>
-      <h3 style={{display: "flex", gap: ".5rem"}}>
+      <Header />
+      <h3 style={{ display: "flex", gap: ".5rem" }}>
         {/* {headerName.toLowerCase().includes("joseph") ? <> <span style={{ fontWeight: "bold" }}>JOSEPH</span> <span style={{ color: "#ae774fff", fontWeight: "bold" }}>MORELLI</span> </> : ""} */}
         {/* {showInsta ? <span style={{ color: "#ff34b1" }}>@jj_tookthat</span> : ""} */}
         {/* {showSpotify ? <span style={{ color: "#1ca315" }}>E S P E N P T</span> : ""} */}
@@ -135,15 +135,7 @@ export default function Home() {
       <p><strong>Fact of the Day</strong></p>
       <p style={{ width: "200px" }}> {dailyFunFact}</p>
 
-      {!nowPlaying && nowPlayingLoaded && (
 
-        <div style={{
-          paddingTop: "50px",
-          position: "fixed"
-        }}>
-
-        </div>
-      )}
 
 
 
@@ -152,8 +144,9 @@ export default function Home() {
           backgroundImage: `url(${backgrounds[bgIndex]})`,
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
-          backgroundSize: '30%',
-          height: '100vh',
+          backgroundSize: '25%', 
+          height: '70vh',
+          margin: 0,             
           transition: 'background-image .5s ease-in-out'
         }}>
         {/* shout out https://mynameiseno.tumblr.com/ */}
