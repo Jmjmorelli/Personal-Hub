@@ -3,3 +3,5 @@
 Migrating to NextJS 
 
 Migrated to NextJS 6/16!!
+
+Now completely SELF HOSTED!! @ morellijoseph.com through cloudflare Zero Trust Tunnels!!
