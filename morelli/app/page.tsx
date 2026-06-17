@@ -119,7 +119,19 @@ export default function Home() {
     //     </div>
     //   </main>
     // </div>
-    <div className="homePage">
+    <div style={{
+
+          backgroundImage: `url(${backgrounds[bgIndex]})`,
+          backgroundPosition: 'center',
+          backgroundAttachment: "fixed",
+          // backgroundColor:"green", // lol
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: '25%', 
+          height: '70vh',
+          margin: 0,             
+          transition: 'background-image .5s ease-in-out'
+        
+    }} className="homePage">
       <Header />
       <h3 style={{ display: "flex", gap: ".5rem" }}>
         {/* {headerName.toLowerCase().includes("joseph") ? <> <span style={{ fontWeight: "bold" }}>JOSEPH</span> <span style={{ color: "#ae774fff", fontWeight: "bold" }}>MORELLI</span> </> : ""} */}
@@ -132,26 +144,29 @@ export default function Home() {
 
 
       {/* <p> I'm probably eating right now!?</p> */}
-      <p><strong>Fact of the Day</strong></p>
+      <p style={{paddingTop: "1rem"}}><strong>Fact of the Day</strong></p>
       <p style={{ width: "200px" }}> {dailyFunFact}</p>
+      
 
 
 
 
-
+{/* 
       <div
         style={{
           backgroundImage: `url(${backgrounds[bgIndex]})`,
           backgroundPosition: 'center',
+          backgroundAttachment: "fixed",
+          backgroundColor:"green", // lol
           backgroundRepeat: 'no-repeat',
           backgroundSize: '25%', 
           height: '70vh',
           margin: 0,             
           transition: 'background-image .5s ease-in-out'
         }}>
+      </div> */}
         {/* shout out https://mynameiseno.tumblr.com/ */}
 
-      </div>
     </div>
   );
 }
