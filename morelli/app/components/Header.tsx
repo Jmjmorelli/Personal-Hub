@@ -2,13 +2,24 @@ import Link from "next/link";
 
 function Header() {
   return (
-    <header className="header">
-      <nav className="headerContent">
-      <ul>
-        <li><Link href="/">Home</Link></li>
-        <li><Link href="/projects">Projects</Link></li>
-        {/* <li><a href="#">Links</a></li>  */}
-      </ul>
+    <header>
+      <nav >
+        <ul style={{
+          display: "flex",
+          flexDirection: "row-reverse",
+          gap: ".5rem",
+          justifyContent: "space-between"
+        }}>
+          <div style={{display: "flex", flexDirection: "row", gap: ".5rem"}}>
+            <li><Link href="/">Home</Link></li>
+            <li><Link href="/projects">Projects</Link></li>
+          </div>
+          <div style={{ flexDirection: "row" }}>
+            <li><Link href="/"><span style={{ fontWeight: "bold" }}>JOSEPH</span> <span style={{ color: "#ae774fff", fontWeight: "bold" }}>MORELLI</span></Link></li>
+          </div>
+          {/* <li><a href="#">Links</a></li>  */}
+          
+        </ul>
       </nav>
     </header>
   );

@@ -121,8 +121,8 @@ export default function Home() {
     // </div>
     <div className="homePage">
       <Header/>
-      <h3 style={{marginBottom: "1rem"}}>
-        {headerName.toLowerCase().includes("joseph") ? <> <span style={{ fontWeight: "bold" }}>JOSEPH</span> <span style={{ color: "#ae774fff", fontWeight: "bold" }}>MORELLI</span> </> : ""}
+      <h3 style={{display: "flex", gap: ".5rem"}}>
+        {/* {headerName.toLowerCase().includes("joseph") ? <> <span style={{ fontWeight: "bold" }}>JOSEPH</span> <span style={{ color: "#ae774fff", fontWeight: "bold" }}>MORELLI</span> </> : ""} */}
         {/* {showInsta ? <span style={{ color: "#ff34b1" }}>@jj_tookthat</span> : ""} */}
         {/* {showSpotify ? <span style={{ color: "#1ca315" }}>E S P E N P T</span> : ""} */}
         {/* {showGithub ? <span> 010010100100111100001010</span> : ""} */}
