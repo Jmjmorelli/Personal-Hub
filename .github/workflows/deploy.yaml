@@ -42,7 +42,7 @@ jobs:
 
             export PATH=$PATH:$HOME/.nvm/versions/node/$(node -v)/bin:$HOME/.config/nvm
 
-            cd /var/www/html/://morellijoseph.com
+            cd /var/www/html/morellijoseph.com/Personal-Hub/morelli
             git pull origin main
             npm i
             npm run build
