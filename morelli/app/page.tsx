@@ -121,16 +121,16 @@ export default function Home() {
     // </div>
     <div style={{
 
-          backgroundImage: `url(${backgrounds[bgIndex]})`,
-          backgroundPosition: 'center',
-          backgroundAttachment: "fixed",
-          // backgroundColor:"green", // lol
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: '25%', 
-          height: '70vh',
-          margin: 0,             
-          transition: 'background-image .5s ease-in-out'
-        
+      backgroundImage: `url(${backgrounds[bgIndex]})`,
+      backgroundPosition: 'center',
+      backgroundAttachment: "fixed",
+      // backgroundColor:"green", // lol
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: '25%',
+      height: '70vh',
+      margin: 0,
+      transition: 'background-image .5s ease-in-out'
+
     }} className="homePage">
       <Header />
       <h3 style={{ display: "flex", gap: ".5rem" }}>
@@ -144,15 +144,15 @@ export default function Home() {
 
 
       {/* <p> I'm probably eating right now!?</p> */}
-      <p style={{paddingTop: "1rem"}}><strong>Fact of the Day</strong></p>
+      <p style={{ paddingTop: "1rem" }}><strong>Fact of the Day</strong></p>
       <p style={{ width: "200px" }}> {dailyFunFact}</p>
-      <p style={{paddingTop: "2rem"}}>Updated 6/19/26</p>
-      
+      <p style={{ paddingTop: "1rem" }}>Last Updated<p style={{fontWeight: "bold"}}>6/19/26</p></p>
 
 
 
 
-{/* 
+
+      {/* 
       <div
         style={{
           backgroundImage: `url(${backgrounds[bgIndex]})`,
@@ -166,7 +166,7 @@ export default function Home() {
           transition: 'background-image .5s ease-in-out'
         }}>
       </div> */}
-        {/* shout out https://mynameiseno.tumblr.com/ */}
+      {/* shout out https://mynameiseno.tumblr.com/ */}
 
     </div>
   );
