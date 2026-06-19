@@ -64,7 +64,7 @@ export default function Projects() {
 
                                         <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-2">
 
-                                            <span style={{ padding: "5px" }}
+                                            {/* <span style={{ padding: "5px" }}
                                                 className={`px-2.5 sm:px-3 py-1 sm:py-1.5 bg-gray-900 text-white rounded-md sm:rounded-lg text-xs sm:text-sm font-medium transition-all duration-300 ${true ? "group-hover:bg-gray-800" : ""
                                                     }`}
                                             >
@@ -76,7 +76,7 @@ export default function Projects() {
                                                     }`}
                                             >
                                                 Turso + Drizzle ORM
-                                            </span>
+                                            </span> */}
 
                                         </div>
                                     </div>
@@ -122,7 +122,7 @@ export default function Projects() {
 
                                         <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-2">
 
-                                            <span style={{ padding: "5px" }}
+                                            {/* <span style={{ padding: "5px" }}
                                                 className={`px-2.5 sm:px-3 py-1 sm:py-1.5 bg-gray-900 text-white rounded-md sm:rounded-lg text-xs sm:text-sm font-medium transition-all duration-300 ${true ? "group-hover:bg-gray-800" : ""
                                                     }`}
                                             >
@@ -134,7 +134,7 @@ export default function Projects() {
                                                     }`}
                                             >
                                                 Turso + Drizzle ORM
-                                            </span>
+                                            </span> */}
 
                                         </div>
                                     </div>

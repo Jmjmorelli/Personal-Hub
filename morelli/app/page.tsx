@@ -146,7 +146,7 @@ export default function Home() {
       {/* <p> I'm probably eating right now!?</p> */}
       <p style={{ paddingTop: "1rem" }}><strong>Fact of the Day</strong></p>
       <p style={{ width: "200px" }}> {dailyFunFact}</p>
-      <p style={{ paddingTop: "1rem" }}>Last Updated<p style={{fontWeight: "bold"}}>6/19/26</p></p>
+      <p style={{ paddingTop: "1rem" }}>Last Updated</p> <p style={{fontWeight: "bold"}}>6/19/26</p>
 
 
 
