@@ -16,6 +16,7 @@ function Header() {
             <li><Link href="/">Home</Link></li>
             <li><Link href="/projects">Projects</Link></li>
             <li><Link href="https://files.morellijoseph.com/">Photos</Link></li>
+            <li><Link href="/logs">Logs</Link></li>
           </div>
           <div style={{ flexDirection: "row" }}>
             <li><Link href="/"><span style={{ fontWeight: "bold" }}>JOSEPH</span> <span style={{ color: "#ae774fff", fontWeight: "bold" }}>MORELLI</span></Link></li>
