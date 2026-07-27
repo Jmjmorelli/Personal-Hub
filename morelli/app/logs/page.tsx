@@ -12,6 +12,7 @@ interface LogItem {
 
 export default function Logs() {
 
+    // testing
     const [logs, setLogs] = useState<LogItem[]>([]);
     const [error, setError] = useState<string | null>(null);
 
