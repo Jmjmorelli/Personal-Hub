@@ -14,7 +14,7 @@ function Header() {
         }}>
           <div style={{display: "flex", flexDirection: "row", gap: ".5rem"}}>
             <li><Link href="/">Home</Link></li>
-            <li><Link href="/projects">Projects</Link></li>
+            {/*<li><Link href="/projects">Projects</Link></li>*/}
             <li><Link href="https://files.morellijoseph.com/">Photos</Link></li>
             <li><Link href="/logs">Logs</Link></li>
           </div>
