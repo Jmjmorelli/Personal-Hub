@@ -3,6 +3,20 @@ import { Component } from "react";
 import Header from "../components/Header";
 import Link from 'next/link'
 
+function getOrdinal(n: number): string {
+  const s = ["th", "st", "nd", "rd"];
+  const v = n % 100;
+  return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
+function formatDateLong(dateStr: string): string {
+  const date = new Date(dateStr);
+  const month = date.toLocaleDateString("en-US", { month: "long" });
+  const day = getOrdinal(date.getDate());
+  const year = date.getFullYear();
+  return `${month} ${day} ${year}`;
+}
+
 export default function Projects() {
 
     return (
@@ -59,7 +73,7 @@ export default function Projects() {
                                         <p
                                             className={`text-base sm:text-lg text-gray-600 leading-relaxed ${true ? "pr-12 sm:pr-14 md:pr-16" : ""}`}
                                         >
-                                            Lashes & Hair Salon | last updated June 7th 2026
+                                            Lashes & Hair Salon | last updated {formatDateLong(process.env.NEXT_PUBLIC_LAST_UPDATED || "")}
                                         </p>
 
                                         <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-2">
@@ -117,7 +131,7 @@ export default function Projects() {
                                         <p
                                             className={`text-base sm:text-lg text-gray-600 leading-relaxed ${true ? "pr-12 sm:pr-14 md:pr-16" : ""}`}
                                         >
-                                            Nail Salon | last updated June 18th 2026
+                                            Nail Salon | last updated {formatDateLong(process.env.NEXT_PUBLIC_LAST_UPDATED || "")}
                                         </p>
 
                                         <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-2">

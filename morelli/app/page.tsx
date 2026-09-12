@@ -13,6 +13,15 @@ const backgrounds = [
 ]
 
 
+function formatDate(dateStr: string) {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString("en-US", {
+    month: "numeric",
+    day: "numeric",
+    year: "2-digit",
+  });
+}
+
 export default function Home() {
 
   const [bgIndex, setBgIndex] = useState<number>(0);
@@ -146,7 +155,7 @@ export default function Home() {
       {/* <p> I'm probably eating right now!?</p> */}
       <p style={{ paddingTop: "1rem" }}><strong>Fact of the Day</strong></p>
       <p style={{ width: "200px" }}> {dailyFunFact}</p>
-      <p style={{ paddingTop: "1rem" }}>Last Updated</p> <p style={{fontWeight: "bold"}}>6/19/26</p>
+      <p style={{ paddingTop: "1rem" }}>Last Updated</p> <p style={{fontWeight: "bold"}}>{formatDate(process.env.NEXT_PUBLIC_LAST_UPDATED || "")}</p>
 
 
 
